@@ -1,0 +1,169 @@
+-- average rating a movie
+select m.title, avg(r.rating) as avgRating
+from movies m
+inner join ratings r on m.movieid = r.movieid
+where  r.rating > 0
+group by m.title
+order by avgRating desc;
+
+-- total ratings for a movie
+select m.title, count(r.rating) as cntRating
+from movies m
+inner join ratings r on m.movieid = r.movieid
+where  r.rating > 0
+group by m.title
+order by cntRating desc;
+
+-- total movies for each genre
+select m.genres, count(mg.genre_id) as cntId
+from movies m
+inner join movie_genre mg on m.movieid = mg.movieid
+inner join genre g on mg.genre_id = g.id
+group by m.genres
+order by cntid desc;
+
+---avg user rating
+select userid, avg(rating) as cntRating
+from ratings
+where rating > 0
+group by ratings.userid
+order by cntRating desc;
+
+---user with most ratings
+select userid, count(rating) as cntRating
+from ratings
+where rating > 0
+group by ratings.userid
+order by cntRating desc;
+
+--user with highest avg rating
+select userid, avg(rating) as avgRating
+from ratings
+where rating > 0
+group by ratings.userid
+order by userid, avgRating desc;
+
+--user with highest avg over 50
+select userid, avg(rating) as avgRating
+from ratings
+where userid < 50
+group by ratings.userid
+order by avgRating desc;
+
+--avg rating over 4
+select m.title, avg(r.rating)  as avgRating
+from movies m
+inner join ratings r on m.movieid = r.movieid
+where r.rating > 4
+group by m.title
+order by avgRating desc;
+
+-- total reviews for each genre, avg reviews sorted by highest avg review
+select m.genres, count(r.rating) as cntRating, avg(r.rating) as avgRating
+from movies m
+inner join  genre g on m.genres = g.genres
+inner join ratings r on r.movieid = m.movieid
+group by m.genres
+order by avgRating desc;
+
+create table actors(
+  id  INT,
+  name  VARCHAR(255),
+  character_name VARCHAR(255),
+  fkey  INT,
+  DOB VARCHAR(255)
+)
+
+  insert into actors values (1, 'Mike Tyson', 'Hot Dog Man', (select movieid from movies where movieid = 12), '10/09/1968' )
+  insert into actors values (2, 'A A Ron', 'Wheres the mit', (select movieid from movies where movieid = 12), '10/09/1969' )
+ insert into actors values (3, 'Aaron Tyson', 'Pluto', (select movieid from movies where movieid = 12), '1/09/1968' )
+ insert into actors values (4, 'Jordan Smith', 'Rodney', (select movieid from movies where movieid = 12), '10/29/1988' )
+ insert into actors values (1, 'Dashika Shanae Jackson', 'Shop Girl', (select movieid from movies where movieid = 12), '04/09/1980' )
+ insert into actors values (6, 'Tyson Jone', 'Boxer Mickey', (select movieid from movies where movieid = 12), '03/10/1971' )
+ insert into actors values (7, 'Orginald Smith ', 'Clash', (select movieid from movies where movieid = 12), '02/09/2001' )
+ insert into actors values (8, 'Omar sharik abdul kim', 'Mr. sergant', (select movieid from movies where movieid = 12), '07/19/1972' )
+ insert into actors values (9, 'Steve John', 'Big Boss', (select movieid from movies where movieid = 12), '07/23/1967' )
+ insert into actors values (10, 'Marcus Mason', 'John Pete', (select movieid from movies where movieid = 12), '05/09/1983' )
+
+insert into actors values (11, 'John Segal', 'Watson', (select movieid from movies where movieid = 13), '10/07/1963' )
+  insert into actors values (12, 'Mike Smith', 'Harry', (select movieid from movies where movieid = 13), '10/09/1967' )
+ insert into actors values (13, 'Tyson Jones', 'Pete', (select movieid from movies where movieid = 13), '1/09/1946' )
+ insert into actors values (14, 'Jordan Yates', 'Jones', (select movieid from movies where movieid = 13), '10/29/1976' )
+ insert into actors values (15, 'Jackson Taylor', 'Sheri', (select movieid from movies where movieid = 13), '04/09/1982' )
+ insert into actors values (16, 'Jone Fonda', 'Mickey Watson', (select movieid from movies where movieid = 13), '02/10/1967' )
+ insert into actors values (17, 'Beckam Smith ', 'Tony', (select movieid from movies where movieid = 13), '02/09/1990' )
+ insert into actors values (18, 'Kim Richards', 'Sergant Biggs', (select movieid from movies where movieid = 13), '03/19/1982' )
+ insert into actors values (19, 'Jon Regan', 'Boss Man', (select movieid from movies where movieid = 13), '07/23/1977' )
+ insert into actors values (20, 'Mason Wright', 'Pete Smith', (select movieid from movies where movieid = 13), '03/05/1983' )
+
+insert into actors values (21, 'Heaher Gunderson', 'Pastry Chef', (select movieid from movies where movieid = 14), '03/09/1973' )
+insert into actors values (22, 'Mike Jones', 'Guy Next Door', (select movieid from movies where movieid = 14), '08/09/1980' )
+ insert into actors values (23, 'Terry Shelly', 'Girl next door', (select movieid from movies where movieid = 14), '04/18/1980' )
+ insert into actors values (24, 'Ronda Wilkins', 'Girl across the street', (select movieid from movies where movieid = 14), '10/01/2002' )
+ insert into actors values (25, 'Marcy Smith', 'Shop Girl', (select movieid from movies where movieid = 14), '12/09/2000' )
+ insert into actors values (26, 'Steve Aarons', 'Boxer Mickey', (select movieid from movies where movieid = 14), '09/27/1988' )
+ insert into actors values (27, 'Shelly Jones ', 'Clash', (select movieid from movies where movieid = 14), '09/19/1999' )
+ insert into actors values (28, 'Karen Smith', 'Mr. sergant', (select movieid from movies where movieid = 14), '01/19/1987' )
+ insert into actors values (29, 'Henry Styles', 'Big Boss', (select movieid from movies where movieid = 14), '05/10/1977' )
+ insert into actors values (30, 'Marcus Mason', 'John Pete', (select movieid from movies where movieid = 14), '06/16/1971`' )
+
+alter table movies add column mpaa  character varying(50);
+
+select *
+  from movies;
+
+--update 1
+update movies
+set mpaa = 'pg'
+where
+movies.title = 'Jumanji (1995)';
+
+--update 2
+update movies
+set mpaa = 'pg-13'
+where
+movies.title = 'Toy Story (1993)';
+
+--update 3
+update movies
+set mpaa = 'R'
+where
+movies.title = 'Sudden Death (1995)';
+
+--update 4
+update movies
+set mpaa = 'R'
+where
+movies.title = 'Vampire in Brooklyn (1995)';
+
+
+--update 5
+update movies
+set mpaa = 'pg-13'
+where
+movies.title = 'Muppet Treasure Island (1996)';
+
+--checking update
+select *
+from movies
+where mpaa = 'pg';
+
+--add year column to movie table
+alter table movies add column year character varying(50);
+
+--extract movie year from title and add to year column
+update movies
+set year = substring(movies.title, '\d{4}')
+where movies.year IS NULL;
+
+--join movies and actors
+select *
+from movies m
+inner join actors a on a.movieid = m.movieid;
+
+
+
+
+
+
+
